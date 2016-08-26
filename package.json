@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/tridon777/mongo/issues"
   },
-  "homepage": "https://github.com/tridon777/mongo#readme"
+  "homepage": "https://github.com/tridon777/mongo#readme",
+  "dependencies": {
+    "bluebird": "^3.4.3",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.5.10"
+  }
 }
