@@ -5,7 +5,23 @@ import * as BodyParser from "body-parser";
 import * as Employee from './schema/Mongoose/Employee';
 
 
-const router = Express();
+
+
+const app = Express();
+
+app.use(BodyParser.json());
+app.use(BodyParser.urlencoded({
+    extended: true
+}));
+
+app.use(function(req,res, next){
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:81');
+    res.setHeader('Access-Control-Allow-Methods', 'GET');
+    next();
+});
+
+const router = Express.Router();
+
 
 
 const options = { promiseLibrary: require('bluebird') };
@@ -15,24 +31,29 @@ Mongoose = Promise.promisifyAll(Mongoose);
 
 let db = Mongoose.connect("mongodb://localhost/mydb", options);
 
-router.use(BodyParser.json());
-router.use(BodyParser.urlencoded({
-    extended: true
-}));
-
-const server = router.listen(3000, function ()  {
-    console.log('Server listening on port 3000');
+router.use(function (req, res, next) {
+    // do logging
+    console.log('Something is happening.');
+    next(); // make sure we go to the next routes and don't stop here
 });
 
-router.post('/api/employee', function (req, res)  {
+
+
+router.post('/employee', (req, res) => {
     let newEmployee = new Employee(req.body);
     newEmployee.save((err)=>{
         err ? res.json({info: 'error during Employee create', error: err}) : res.json({info: 'Employee saved successfully', data: newEmployee});
     });
 });
 
-router.get('/api/employee', function (req, res) {
+router.get('/employee', (req, res) => {
     Employee.find((err, Employees) => {
         err ? res.json({info: 'error during find Employees', error: err}) : res.json({info: 'Employees found successfully', data: Employees});
     });
+});
+
+app.use('/api', router);
+
+const server = app.listen(3000, () => {
+    console.log('Server listening on port 3000 testing');
 });
