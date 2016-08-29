@@ -2,6 +2,7 @@
 var Express = require("express");
 var BodyParser = require("body-parser");
 var Employee = require('./schema/Mongoose/Employee');
+var Form = require('./schema/Mongoose/Form');
 var app = Express();
 app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({
@@ -32,6 +33,11 @@ router.post('/employee', function (req, res) {
 router.get('/employee', function (req, res) {
     Employee.find(function (err, Employees) {
         err ? res.json({ info: 'error during find Employees', error: err }) : res.json({ info: 'Employees found successfully', data: Employees });
+    });
+});
+router.get('/forms', function (req, res) {
+    Form.find(function (err, Forms) {
+        err ? res.json({ info: 'error during find Employees', error: err }) : res.json(Forms);
     });
 });
 app.use('/api', router);

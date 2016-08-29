@@ -3,7 +3,7 @@ import * as BodyParser from "body-parser";
 
 
 import * as Employee from './schema/Mongoose/Employee';
-
+import * as Form  from './schema/Mongoose/Form';
 
 
 
@@ -51,6 +51,13 @@ router.get('/employee', (req, res) => {
         err ? res.json({info: 'error during find Employees', error: err}) : res.json({info: 'Employees found successfully', data: Employees});
     });
 });
+
+router.get('/forms',(req,res) =>{
+    Form.find((err,Forms)=>{
+        err ? res.json({info: 'error during find forms', error: err}) : res.json(Forms);
+    })
+});
+
 
 app.use('/api', router);
 
