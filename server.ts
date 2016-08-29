@@ -15,8 +15,8 @@ app.use(BodyParser.urlencoded({
 }));
 
 app.use(function(req,res, next){
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:81');
-    res.setHeader('Access-Control-Allow-Methods', 'GET');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
 
@@ -61,6 +61,6 @@ router.get('/forms',(req,res) =>{
 
 app.use('/api', router);
 
-const server = app.listen(3000, () => {
+const server = app.listen(3001, () => {
     console.log('Server listening on port 3000 testing');
 });
